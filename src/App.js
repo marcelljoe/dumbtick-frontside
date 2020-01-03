@@ -1,26 +1,29 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {Container} from 'semantic-ui-react';
+import Home from './Home';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+import EventsByCategory from './EventsByCategory';
+import EventDetail from './EventDetail';
+import Profile from './Profile';
+import EditProfile from './EditProfile';
+import Payment from './Payment';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+export default class App extends Component {
+render(){
+return (
+  <Router>
+    <div>
+      <Route exact path="/" component={Home} />
+      <Route exact path="/category/:id/events" component={EventsByCategory} />
+      <Route exact path="/event/:id/detail" component={EventDetail} />
+      <Route exact path="/profile/:id" component={Profile} />
+      <Route path="/profile/:id/edit" component={EditProfile} />
+      <Route path="/payment" component={Payment} />
     </div>
-  );
+  </Router>
+);
+  }
 }
-
-export default App;
