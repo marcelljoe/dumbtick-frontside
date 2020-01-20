@@ -14,7 +14,7 @@ export default class Cards extends Component {
   componentDidMount(){
     if(localStorage.getItem("id") == null ){
     } else {
-        Axios.post("http://localhost:7000/dumbtick/favorites", {
+        Axios.post("https://dumbtick-backend.herokuapp.com/dumbtick/favorites", {
           user_id: localStorage.id,
           event_id: this.props.id
         }).then(res => {
@@ -27,7 +27,7 @@ export default class Cards extends Component {
 
   tagFavorited = () => {
     if(this.state.favorited === true){
-      Axios.post("http://localhost:7000/dumbtick/dropfavorite", 
+      Axios.post("https://dumbtick-backend.herokuapp.com/dumbtick/dropfavorite", 
       {
         user_id: localStorage.id,
         event_id: this.props.id
@@ -38,7 +38,7 @@ export default class Cards extends Component {
 
       });
     } else {
-      Axios.post("http://localhost:7000/dumbtick/addfavorite", {
+      Axios.post("https://dumbtick-backend.herokuapp.com/dumbtick/addfavorite", {
         user_id: localStorage.id,
         event_id: this.props.id
       })
