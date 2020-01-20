@@ -49,7 +49,7 @@ export default class EditProfile extends Component {
                    console.log(this.state.name);
                    axios
                      .put(
-                       `http://localhost:7000/dumbtick/profile/${id}/edit`,
+                       `https://dumbtick-backend.herokuapp.com/dumbtick/profile/${id}/edit`,
                        {
                          name,
                          email,
