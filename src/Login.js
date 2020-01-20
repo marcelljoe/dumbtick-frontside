@@ -38,7 +38,7 @@ export default class Login extends Component{
         const username = this.state.username;
         const password = this.state.password;
         axios
-          .post("http://localhost:7000/dumbtick/login", {
+          .post("https://dumbtick-backend.herokuapp.com/dumbtick/login", {
             username,
             password
           })
