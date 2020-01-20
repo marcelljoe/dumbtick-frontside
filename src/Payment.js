@@ -35,14 +35,14 @@ export default class Payment extends Component {
   componentDidMount() {
     const buyer_id = localStorage.id;
   
-    Axios.post("http://localhost:7000/dumbtick/paymentpending", {
+    Axios.post("https://dumbtick-backend.herokuapp.com/dumbtick/paymentpending", {
       buyer_id
     }).then(res => {
       console.log(res.data);
       this.setState({ pendingOrders: res.data });
     });
 
-    Axios.post("http://localhost:7000/dumbtick/paymentconfirmed", {
+    Axios.post("https://dumbtick-backend.herokuapp.com/dumbtick/paymentconfirmed", {
       buyer_id
     }).then(res => {
       console.log(res.data);
