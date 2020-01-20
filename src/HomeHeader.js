@@ -14,7 +14,7 @@ export default class HomeHeader extends Component {
 
     onClickLogout = (e) => {
       localStorage.clear();
-      window.location.reload();
+      window.location.href = "https://dumbtick-joe.netlify.com/";
     }
 
     render(){
