@@ -21,7 +21,7 @@ import EditProfile from "./EditProfile";
 export default class PaymentPending extends Component {
                  onClickPending = id => () => {
                    const status = "Pending";
-                   Axios.put(`http://localhost:7000/dumbtick/pay/${id}`, {
+                   Axios.put(`https://dumbtick-backend.herokuapp.com/dumbtick/pay/${id}`, {
                      status
                    }).then(res => {
                      alert("Payment successfully confirmed");
@@ -31,7 +31,7 @@ export default class PaymentPending extends Component {
 
                  onClickConfirm = id => () => {
                    const status = "Confirmed";
-                   Axios.put(`http://localhost:7000/dumbtick/pay/${id}`, {
+                   Axios.put(`https://dumbtick-backend.herokuapp.com/dumbtick/pay/${id}`, {
                      status
                    }).then(res => {
                      alert("Payment successfully confirmed");
