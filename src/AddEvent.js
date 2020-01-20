@@ -88,7 +88,7 @@ export default class AddEvent extends Component {
                     console.log(category_id);
                    console.log(createdBy_id);
                    axios
-                     .post("http://localhost:7000/dumbtick/addevent",
+                     .post("https://dumbtick-backend.herokuapp.com/dumbtick/addevent",
                        {
                          title: title,
                          category_id: category_id,
@@ -111,7 +111,7 @@ export default class AddEvent extends Component {
 
 
                  componentDidMount() {
-                  axios.get("http://localhost:7000/dumbtick/categories")
+                  axios.get("https://dumbtick-backend.herokuapp.com/dumbtick/categories")
                   .then(res => {
                       this.setState({category: res.data});
                   });
