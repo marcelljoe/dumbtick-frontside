@@ -22,12 +22,12 @@ export default class Profile extends Component {
 
     componentDidMount(){
         const {id} = this.props.match.params;
-        Axios.get(`http://localhost:7000/dumbtick/profile/${id}`).then(res => {
+        Axios.get(`https://dumbtick-backend.herokuapp.com/dumbtick/profile/${id}`).then(res => {
             const datap = res.data;
             this.setState({profile: datap});
         });
 
-        Axios.get(`http://localhost:7000/dumbtick/profile/${id}/favorites`).then(res => {
+        Axios.get(`https://dumbtick-backend.herokuapp.com/dumbtick/profile/${id}/favorites`).then(res => {
         console.log(res.data);
         this.setState({ favorites: res.data});                
         });
