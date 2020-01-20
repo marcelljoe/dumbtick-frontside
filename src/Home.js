@@ -12,147 +12,245 @@ import {connect} from 'react-redux';
 
 
 
+
+
 class Home extends Component {
-    constructor(props){
-        super(props);
-        // this.state= {
-        //     categories:[],
-        //     events: [],
-        //     eventsbt: [],
-        //     eventsuc: []
-        //     }
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      search: ""
+      //     categories:[],
+      //     events: [],
+      //     eventsbt: [],
+      //     eventsuc: []
+    };
+  }
 
-    componentDidMount(){
-                         //this commented text below is for getting data using axios without redux
-      
-                         // Axios.get("http://localhost:7000/dumbtick/categories")
-                         // .then(res => {
-                         //     const datac = res.data;
-                         //     console.log(res.data);
-                         //     this.setState({categories: datac});
-                         // });
+  componentDidMount() {
+    //this commented text below is for getting data using axios without redux
 
-                         // Axios.get("http://localhost:7000/dumbtick/events")
-                         // .then(res => {
-                         //     const datae = res.data;
-                         //                 console.log(res.data);
-                         //     this.setState({events: datae})
-                         // });
+    // Axios.get("http://localhost:7000/dumbtick/categories")
+    // .then(res => {
+    //     const datac = res.data;
+    //     console.log(res.data);
+    //     this.setState({categories: datac});
+    // });
 
-                         // Axios.get("http://localhost:7000/dumbtick/eventsbytoday")
-                         // .then(res => {
-                         //   const databt = res.data;
-                         //               console.log(res.data);
-                         //   this.setState({ eventsbt: databt });
-                         // });
+    // Axios.get("http://localhost:7000/dumbtick/events")
+    // .then(res => {
+    //     const datae = res.data;
+    //                 console.log(res.data);
+    //     this.setState({events: datae})
+    // });
 
-                         // Axios.get("http://localhost:7000/dumbtick/eventsupcoming")
-                         // .then(res => {
-                         //   const datauc = res.data;
-                         //               console.log(res.data);
-                         //   this.setState({ eventsuc: datauc });
-                         // });
-      this.props.dispatch(getEventsByToday());
-      this.props.dispatch(getEventsUpcoming());
-      this.props.dispatch(getEvents());
-      this.props.dispatch(getCategories());
-    }
+    // Axios.get("http://localhost:7000/dumbtick/eventsbytoday")
+    // .then(res => {
+    //   const databt = res.data;
+    //               console.log(res.data);
+    //   this.setState({ eventsbt: databt });
+    // });
 
-    render(){
-        // const {categories, eventsbt, eventsuc } =this.state;
-        const extra = (
-          <a>
-            <Icon name="user" />
-            16 Friends
-          </a>
-        );
+    // Axios.get("http://localhost:7000/dumbtick/eventsupcoming")
+    // .then(res => {
+    //   const datauc = res.data;
+    //               console.log(res.data);
+    //   this.setState({ eventsuc: datauc });
+    // });
+    this.props.dispatch(getEventsByToday());
+    this.props.dispatch(getEventsUpcoming());
+    this.props.dispatch(getEvents());
+    this.props.dispatch(getCategories());
+    console.log(this.props.categories);
+  }
 
-        const currDate = moment().format("DD MMMM YYYY");
-        console.log(currDate);
+  onChangeSearch = event => {
+    this.setState({ search: event.target.value });
+  };
 
-        return (
-          <div>
-            <HomeHeader />
-            <Divider hidden />
+  render() {
+    // const {categories, eventsbt, eventsuc } =this.state;
+    const extra = (
+      <a>
+        <Icon name="user" />
+        16 Friends
+      </a>
+    );
+
+    const currDate = moment().format("DD MMMM YYYY");
+    console.log(currDate);
+
+    const containerStyle = {
+      background: 'rgba(255, 165, 0, 0.5)',
+      padding: "15px",
+      borderRadius: "25px"
+    };
+
+    const { search } = this.state;
+
+    const filteredEventsToday = this.props.eventsbt.filter(eventsbt => {
+      return eventsbt.title.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+    });
+
+    const filteredEventsUpcoming = this.props.eventsuc.filter(eventsuc => {
+      return eventsuc.title.toLowerCase().indexOf(search.toLowerCase()) !== -1;
+    });
+
+    return (
+      <div style={{ backgroundColor: `rgba(180, 180, 180, 1)` }}>
+        <HomeHeader />
+        <Divider hidden />
+        <Container>
+          <Container>
+            <Input
+              fluid
+              icon="search"
+              placeholder="Search...."
+              onChange={this.onChangeSearch}
+            />
+          </Container>
+          <Divider />
+          <Container>
+            <Header
+              as="h1"
+              content="Category"
+              style={{ fontFamily: "Arkhip" }}
+            />
+            <Card.Group itemsPerRow={4}>
+              {this.props.categories.map((dc, i) => (
+                <Card
+                  link
+                  color="orange"
+                  style={{
+                    backgroundImage: `url(${dc.img})`
+                  }}
+                >
+                  <Card.Content as={Link} to={`/category/${dc.id}/events`}>
+                    <Card.Header
+                      textAlign="center"
+                      style={{ fontFamily: "Arkhip", color: "white" }}
+                    >
+                      {dc.name}
+                    </Card.Header>
+                  </Card.Content>
+                </Card>
+              ))}
+            </Card.Group>
+          </Container>
+          <Divider />
+          <Divider hidden />
+
+          {search ? (
             <Container>
-              <Input fluid icon="search" placeholder="Search...." />
-              <Header
-                as="h1"
-                content="Category"
-                style={{ fontFamily: "Arkhip" }}
-              />
-              <Card.Group itemsPerRow={4}>
-                {this.props.categories.map((dc, i) => (
-                  <Card
-                    color="orange"
-                    link
-                    style={{
-                      backgroundImage:
-                        "url(https://image.freepik.com/free-vector/abstract-colorful-flow-shapes-background_23-2148250788.jpg)"
-                    }}
-                  >
-                    <Card.Content as={Link} to={`/category/${dc.id}/events`}>
-                      <Card.Header
-                        textAlign="center"
-                        style={{ fontFamily: "Arkhip" }}
-                      >
-                        {dc.name}
-                      </Card.Header>
-                    </Card.Content>
-                  </Card>
-                ))}
-              </Card.Group>
-              <Header
-                as="h1"
-                content="Today"
-                style={{ fontFamily: "Arkhip" }}
-              />
-              <Card.Group itemsPerRow={3}>
-                {this.props.eventsbt.map((de, i) => {
-                  const checkDate = new Date(de.startTime);
-                  const date = moment(checkDate).format("DD MMMM YYYY");
-                  return (
-                    <Cards
-                      id={de.id}
-                      img={de.img}
-                      title={de.title}
-                      price={`Rp${de.price}`}
-                      description={de.description}
-                      date={date}
-                      category={de.category.name}
-                      link={`/event/${de.id}/detail`}
-                    />
-                  );
-                })}
-              </Card.Group>
-              <Header
-                as="h1"
-                content="Upcoming Event"
-                style={{ fontFamily: "Arkhip" }}
-              />
-              <Card.Group itemsPerRow={3}>
-                {this.props.eventsuc.map((de, i) => {
-                  const checkDate = new Date(de.startTime);
-                  const date = moment(checkDate).format("DD MMMM YYYY");
-                  return (
-                    <Cards
-                      id={de.id}
-                      img={de.img}
-                      title={de.title}
-                      price={`Rp${de.price}`}
-                      description={de.description}
-                      date={date}
-                      link={`/event/${de.id}/detail`}
-                    />
-                  );
-                })}
-              </Card.Group>
+              <Container>
+                <Header
+                  as="h1"
+                  content="Today"
+                  style={{ fontFamily: "Arkhip" }}
+                />
+                <Card.Group itemsPerRow={3}>
+                  {filteredEventsToday.map((de, i) => {
+                    const checkDate = new Date(de.startTime);
+                    const date = moment(checkDate).format("DD MMMM YYYY");
+                    return (
+                      <Cards
+                        id={de.id}
+                        img={de.img}
+                        title={de.title}
+                        price={`Rp ${de.price}`}
+                        description={de.description}
+                        date={date}
+                        category={de.category.name}
+                        link={`/event/${de.id}/detail`}
+                      />
+                    );
+                  })}
+                </Card.Group>
+              </Container>
+              <Divider style={{ height: "2px" }} />
+              <Container>
+                <Header
+                  as="h1"
+                  content="Upcoming Event"
+                  style={{ fontFamily: "Arkhip" }}
+                />
+                <Card.Group itemsPerRow={3}>
+                  {filteredEventsUpcoming.map((de, i) => {
+                    const checkDate = new Date(de.startTime);
+                    const date = moment(checkDate).format("DD MMMM YYYY");
+                    return (
+                      <Cards
+                        id={de.id}
+                        img={de.img}
+                        title={de.title}
+                        price={`Rp ${de.price}`}
+                        description={de.description}
+                        date={date}
+                        link={`/event/${de.id}/detail`}
+                      />
+                    );
+                  })}
+                </Card.Group>
+              </Container>
             </Container>
-            <Footer />
-          </div>
-        );
-    }
+          ) : (
+            <Container>
+              <Container>
+                <Header
+                  as="h1"
+                  content="Today"
+                  style={{ fontFamily: "Arkhip" }}
+                />
+                <Card.Group itemsPerRow={3}>
+                  {this.props.eventsbt.map((de, i) => {
+                    const checkDate = new Date(de.startTime);
+                    const date = moment(checkDate).format("DD MMMM YYYY");
+                    return (
+                      <Cards
+                        id={de.id}
+                        img={de.img}
+                        title={de.title}
+                        price={`Rp ${de.price}`}
+                        description={de.description}
+                        date={date}
+                        category={de.category.name}
+                        link={`/event/${de.id}/detail`}
+                      />
+                    );
+                  })}
+                </Card.Group>
+              </Container>
+              <Divider style={{ height: "2px" }} />
+              <Container>
+                <Header
+                  as="h1"
+                  content="Upcoming Event"
+                  style={{ fontFamily: "Arkhip" }}
+                />
+                <Card.Group itemsPerRow={3}>
+                  {this.props.eventsuc.map((de, i) => {
+                    const checkDate = new Date(de.startTime);
+                    const date = moment(checkDate).format("DD MMMM YYYY");
+                    return (
+                      <Cards
+                        id={de.id}
+                        img={de.img}
+                        title={de.title}
+                        price={`Rp ${de.price}`}
+                        description={de.description}
+                        date={date}
+                        link={`/event/${de.id}/detail`}
+                      />
+                    );
+                  })}
+                </Card.Group>
+              </Container>
+            </Container>
+          )}
+        </Container>
+        <Footer />
+      </div>
+    );
+  }
 }
 
 

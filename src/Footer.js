@@ -7,7 +7,7 @@ import {Container, Grid, Item, Divider, Menu, Header} from 'semantic-ui-react';
 export default class Footer extends Component{
     render(){
         return (
-          <div style={{ backgroundColor: "orange" }}>
+          <div style={{ color: 'orange', background: 'rgba(0, 0, 0, 1)'}}>
             <Container style={{ marginTop: "30px" }}>
               <Grid>
                 <Grid.Row columns="equal">

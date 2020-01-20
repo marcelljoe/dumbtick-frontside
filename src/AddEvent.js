@@ -22,6 +22,7 @@ export default class AddEvent extends Component {
                    this.state = {
                      title: "",
                      category_id: "",
+                     categoryName: "Choose a Category",
                      startTime: "",
                      endTime: "",
                      price: "",
@@ -30,7 +31,9 @@ export default class AddEvent extends Component {
                      urlMaps: "",
                      img: "",
                      createdBy_id: "",
-                     modalOpen: false
+                     modalOpen: false,
+                     category: [],
+                     catList: []
                    };
                  }
 
@@ -38,8 +41,9 @@ export default class AddEvent extends Component {
                    this.setState({ title: e.target.value });
                  };
 
-                 onChangeCategory = e => {
-                   this.setState({ category_id: e.target.value });
+                 onChangeCategory = (e, data) => {
+                   console.log(data.value);
+                   this.setState({ category_id: data.value, categoryName: data.text });
                  };
 
                  onChangeStartTime = e => {
@@ -73,7 +77,7 @@ export default class AddEvent extends Component {
                  onSubmitEvent = e => {
                     const createdBy_id = localStorage.id;
                     const title = this.state.title;
-                    const category_id = this.state.category;
+                    const category_id = this.state.category_id;
                     const startTime = this.state.startTime;
                     const endTime = this.state.endTime;
                     const price = this.state.price;
@@ -81,7 +85,7 @@ export default class AddEvent extends Component {
                     const address = this.state.address;
                     const urlMaps = this.state.urlMaps;
                     const img = this.state.img;    
-
+                    console.log(category_id);
                    console.log(createdBy_id);
                    axios
                      .post("http://localhost:7000/dumbtick/addevent",
@@ -104,35 +108,38 @@ export default class AddEvent extends Component {
                      });
                  };
 
-                //  componentDidMount() {
-                //    if (localStorage.getItem("users")) {
-                //      this.setState({
-                //        name: localStorage.name
-                //      });
-                //    } else {
-                //      this.setState({
-                //        name: ""
-                //      });
-                //    }
-                //  }
+
+
+                 componentDidMount() {
+                  axios.get("http://localhost:7000/dumbtick/categories")
+                  .then(res => {
+                      this.setState({category: res.data});
+                  });
+                 }
+
+
+
 
                  handleOpen = () => this.setState({ modalOpen: true });
 
                  handleClose = () => this.setState({ modalOpen: false });
 
                  render() {
+
                    return (
                      <Modal
                        trigger={
                          <Dropdown.Item
-                           onClick={this.handleOpen}
+                          //  onClick={this.handleOpen}
                            floated="right"
+                           style={{ color: "orange" }}
                          >
                            Add Event
                          </Dropdown.Item>
                        }
-                       open={this.state.modalOpen}
-                       onClose={this.handleClose}
+                      //  open={this.state.modalOpen}
+                      //  onClose={this.handleClose}
+                        style={{backgroundColor: `rgba(180, 180, 180, 1)`}} 
                      >
                        <Container>
                          <div style={{ backgroundColor: "orange" }}>
@@ -167,6 +174,7 @@ export default class AddEvent extends Component {
                                  <Form onSubmit={this.onSubmitEvent}>
                                    <Form.Field align="center" required>
                                      <Input
+                                       focus
                                        size="small"
                                        type="text"
                                        placeholder="Title"
@@ -175,13 +183,16 @@ export default class AddEvent extends Component {
                                      />
                                    </Form.Field>
                                    <Form.Field align="center" required>
-                                     <Input
-                                       size="small"
-                                       type="text"
-                                       placeholder="Category"
-                                       value={this.state.category_id}
-                                       onChange={this.onChangeCategory}
-                                     />
+                                    <Dropdown selection text={this.state.categoryName}>
+                                      <Dropdown.Menu>
+                                        {this.state.category.map((data, i) => (
+                                          <Dropdown.Item text={data.name} key={data.id} value={data.id} onClick={this.onChangeCategory}/>
+                                        )
+                                       )}
+                                       </Dropdown.Menu>
+                                    </Dropdown>
+
+     
                                    </Form.Field>
                                    <Form.Field align="center" required>
                                      <Input

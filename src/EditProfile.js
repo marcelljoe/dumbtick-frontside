@@ -18,6 +18,11 @@ export default class EditProfile extends Component {
                    };
                  }
 
+                 componentDidMount() {
+                   axios.get("")
+                 }
+
+
                  onChangeName = e => {
                    this.setState({ name: e.target.value });
                  };
@@ -83,10 +88,11 @@ export default class EditProfile extends Component {
                  render() {
                    return (
                      <Modal
-                       trigger={<Button onClick={this.handleOpen} floated="right">Edit Profile</Button>}
+                       trigger={<Button onClick={this.handleOpen} floated="right" style={{color: 'black', backgroundColor: 'orange'}}>Edit Profile</Button>}
                        size="medium"
                        open={this.state.modalOpen}
                        onClose={this.handleClose}
+                       style={{backgroundColor: `rgba(180, 180, 180, 1)`}}
                      >
                        <Container>
                          <div style={{ backgroundColor: "orange" }}>
@@ -111,7 +117,7 @@ export default class EditProfile extends Component {
                            <Header
                              textAlign="center"
                              as="h1"
-                             style={{ fontFamily: "Arkhip" }}
+                             style={{ fontFamily: "Arkhip"}}
                              content="Edit Your Profile"
                            />
                            <Divider hidden />
@@ -119,6 +125,7 @@ export default class EditProfile extends Component {
                              <Grid.Row columns={2}>
                                <Grid.Column>
                                  <Form onSubmit={this.onSubmitProfile}>
+                                   
                                    <Form.Field align="center">
                                      <Input
                                        size="small"
@@ -128,6 +135,7 @@ export default class EditProfile extends Component {
                                        onChange={this.onChangeName}
                                      />
                                    </Form.Field>
+                                   
                                    <Form.Field align="center">
                                      <Input
                                        size="small"
@@ -159,7 +167,7 @@ export default class EditProfile extends Component {
                                      Save Changes
                                    </Button>
                                  </Form>
-                                 <Button color="orange" onClick={this.handleClose}>Cancel</Button>
+                                 <Button onClick={this.handleClose} style={{color:'black', backgroundColor: 'orange'}}>Cancel</Button>
                                  <Divider hidden />
                                </Grid.Column>
                                <Grid.Column>

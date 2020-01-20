@@ -18,9 +18,10 @@ import { Link } from "react-router-dom";
 import EditProfile from "./EditProfile";
 import MyTickets from './MyTickets';
 import PaymentPending from './PaymentPending';
+import Footer from './Footer';
 
 
-export default class Profile extends Component {
+export default class Payment extends Component {
   constructor() {
     super();
     this.state = {
@@ -30,27 +31,13 @@ export default class Profile extends Component {
     };
   }
 
-  onClickConfirm = (id) => () => {
-    const status = "Confirmed";
-    Axios.put(`http://localhost:7000/dumbtick/pay/${id}`,
-    {
-      status
-    })
-    .then(res => {
-      alert("Payment successfully confirmed");
-      window.location.reload();
-    });
-  } 
-
-
 
   componentDidMount() {
     const buyer_id = localStorage.id;
-    Axios.post("http://localhost:7000/dumbtick/paymentpending", 
-    {
+  
+    Axios.post("http://localhost:7000/dumbtick/paymentpending", {
       buyer_id
-    })
-    .then(res => {
+    }).then(res => {
       console.log(res.data);
       this.setState({ pendingOrders: res.data });
     });
@@ -70,7 +57,7 @@ export default class Profile extends Component {
 
     const imgQR = <Image size="small" style={{backgroundColor: "lightgrey", display: 'unset'}} src="https://i2.wp.com/www.simplifiedcoding.net/wp-content/uploads/2016/12/qr-code.png?resize=250%2C250&ssl=1"/>;
     return (
-      <div>
+      <div style={{backgroundColor: `rgba(180, 180, 180, 1)`}}>
         <HomeHeader />
         <Divider hidden />
         <Container>
@@ -81,50 +68,48 @@ export default class Profile extends Component {
               name="Payment"
               active={activeItem === "Payment"}
               onClick={this.handleItemClick}
-            />
+              />
             <Menu.Item
               name="My Tickets"
               active={activeItem === "My Tickets"}
               onClick={this.handleItemClick}
-            />
+              />
           </Menu>
-        {this.state.activeItem === "Payment" ? (
-          <Container style={{ width: "850px" }}>
-            {pendingOrders.map((de, i) => (
-              <PaymentPending
-                id={de.id}
-                startTime={de.event.startTime}
-                name={de.user.name}
-                status={de.status}
-                price={de.event.price}
-                title={de.event.title}
-                address={de.event.address}
-                quantity={de.quantity}
-                totalPrice={de.totalPrice}
-              />
-            ))}
-          </Container>
-        ) : (
-          <Container style={{ width: "850px" }}>
-            {confirmedOrders.map((de, i) => (
-              <MyTickets
-                id={de.id}
-                startTime={de.event.startTime}
-                name={de.user.name}
-                status={de.status}
-                price={de.event.price}
-                title={de.event.title}
-                address={de.event.address}
-                quantity={de.quantity}
-                totalPrice={de.totalPrice}
-              />
-            ))}
-          </Container>
-        )}
-
-
-
+          {this.state.activeItem === "Payment" ? (
+            <Container style={{ width: "850px" }}>
+              {pendingOrders.map((de, i) => (
+                <PaymentPending
+                  id={de.id}
+                  startTime={de.event.startTime}
+                  name={de.user.name}
+                  status={de.status}
+                  price={de.event.price}
+                  title={de.event.title}
+                  address={de.event.address}
+                  quantity={de.quantity}
+                  totalPrice={de.totalPrice}
+                />
+              ))}
+            </Container>
+          ) : (
+            <Container style={{ width: "850px" }}>
+              {confirmedOrders.map((de, i) => (
+                <MyTickets
+                  id={de.id}
+                  startTime={de.event.startTime}
+                  name={de.user.name}
+                  status={de.status}
+                  price={de.event.price}
+                  title={de.event.title}
+                  address={de.event.address}
+                  quantity={de.quantity}
+                  totalPrice={de.totalPrice}
+                />
+              ))}
+            </Container>
+          )}
         </Container>
+        <Footer/>
       </div>
     );
   }

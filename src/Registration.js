@@ -26,26 +26,17 @@ export default class Registration extends Component {
                    this.state = {
                      name: "",
                      email: "",
+                     phoneNumber: "",
                      username: "",
                      password: "",
-                     isLoggedIn: ""
+                     isLoggedIn: "",
+                     img: "",
+                     dob: ""
                    };
                  }
 
-                 onChangeName = e => {
-                   this.setState({ name: e.target.value });
-                 };
-
-                 onChangeEmail = e => {
-                   this.setState({ email: e.target.value });
-                 };
-
-                 onChangeUsername = e => {
-                   this.setState({ username: e.target.value });
-                 };
-
-                 onChangePassword = e => {
-                   this.setState({ password: e.target.value });
+                 onChangeData = e => {
+                   this.setState({ [e.target.name]: e.target.value });
                  };
 
                  onSubmitRegist = e => {
@@ -53,14 +44,22 @@ export default class Registration extends Component {
                      .post("http://localhost:7000/dumbtick/register", {
                        name: this.state.name,
                        email: this.state.email,
+                       phoneNumber: this.state.phoneNumber,
                        username: this.state.username,
-                       password: this.state.password
+                       password: this.state.password,
+                       img: this.state.img,
+                       dob: this.state.dob
                      })
                      .then(res => {
-                      localStorage.setItem("token", res.data.token);
-                      localStorage.setItem("username", res.data.username);
-                      localStorage.setItem("isLoggedIn", 1);
-                      window.location.reload();
+                       localStorage.setItem("id", res.data.id);
+                       localStorage.setItem("username", res.data.username);
+                       localStorage.setItem("token", res.data.token);
+                       localStorage.setItem("name", res.data.name);
+                       localStorage.setItem("isLoggedIn", 1);
+                       window.location.reload();
+                     })
+                     .catch(res => {
+                       alert("Username unavailable. Use another username.");
                      });
                  };
 
@@ -76,10 +75,11 @@ export default class Registration extends Component {
                      });
                    } else {
                      this.setState({
-                       name: '',
-                       email: '',
-                       username: '',
-                       password: ''
+                       name: "",
+                       email: "",
+                       username: "",
+                       password: "",
+                       id: ""
                      });
                    }
                  }
@@ -91,24 +91,30 @@ export default class Registration extends Component {
                  render() {
                    return (
                      <Modal
-                       trigger={<Button color="black" floated="right">Register</Button>}
+                       trigger={
+                         <Button floated="right" style={{ color: 'orange', backgroundColor: 'black'}}>
+                           REGISTER
+                         </Button>
+                       }
                        size="small"
                        closeIcon
                        dimmer="blurring"
+                       style={{ color: "orange", background: "rgba(100, 100, 100, 1)" }}
                      >
                        <div class="ui form">
                          <br />
                          <div align="center">
                            <div class="seven wide field">
-                             <h1 align="center">REGISTER</h1>
+                             <h1 align="center" style={{ color: 'orange'}}>REGISTER</h1>
                              <Form onSubmit={this.onSubmitRegist}>
                                <Form.Field align="center">
                                  <Input
                                    size="small"
                                    type="text"
                                    placeholder="Name"
+                                   name="name"
                                    value={this.state.name}
-                                   onChange={this.onChangeName}
+                                   onChange={this.onChangeData}
                                  />
                                </Form.Field>
                                <Form.Field align="center">
@@ -116,8 +122,39 @@ export default class Registration extends Component {
                                    size="small"
                                    type="email"
                                    placeholder="Email"
+                                   name="email"
                                    value={this.state.email}
-                                   onChange={this.onChangeEmail}
+                                   onChange={this.onChangeData}
+                                 />
+                               </Form.Field>
+                               <Form.Field align="center">
+                                 <Input
+                                   size="small"
+                                   type="number"
+                                   placeholder="Phone Number"
+                                   name="phoneNumber"
+                                   value={this.state.phoneNumber}
+                                   onChange={this.onChangeData}
+                                 />
+                               </Form.Field>
+                               <Form.Field align="center">
+                                 <Input
+                                   size="small"
+                                   type="date"
+                                   placeholder="Date of Birth"
+                                   name="dob"
+                                   value={this.state.dob}
+                                   onChange={this.onChangeData}
+                                 />
+                               </Form.Field>
+                               <Form.Field align="center">
+                                 <Input
+                                   size="small"
+                                   type="text"
+                                   placeholder="Image Link"
+                                   name="img"
+                                   value={this.state.img}
+                                   onChange={this.onChangeData}
                                  />
                                </Form.Field>
                                <Form.Field align="center">
@@ -125,17 +162,19 @@ export default class Registration extends Component {
                                    size="small"
                                    type="text"
                                    placeholder="Username"
+                                   name="username"
                                    value={this.state.username}
-                                   onChange={this.onChangeUsername}
+                                   onChange={this.onChangeData}
                                  />
                                </Form.Field>
                                <Form.Field align="center">
                                  <Input
                                    size="small"
                                    type="password"
-                                   placeholder="Psswrd"
+                                   placeholder="Password"
+                                   name="password"
                                    value={this.state.password}
-                                   onChange={this.onChangePassword}
+                                   onChange={this.onChangeData}
                                  />
                                </Form.Field>
                                <Form.Field align="center">
@@ -143,6 +182,10 @@ export default class Registration extends Component {
                                    type="submit"
                                    color="black"
                                    size="small"
+                                   style={{
+                                    color: "black",
+                                    background: "rgba(255, 165, 0, 1)"
+                                 }}
                                  >
                                    Register
                                  </Button>

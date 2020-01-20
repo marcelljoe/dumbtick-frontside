@@ -7,7 +7,7 @@ import moment from 'moment';
 import Cards from './Cards';
 import {Link} from 'react-router-dom';
 import EditProfile from './EditProfile';
-
+import Footer from './Footer';
 
 
 export default class Profile extends Component {
@@ -16,6 +16,7 @@ export default class Profile extends Component {
         this.state = {
             profile: [],
             favorites: [],
+
         };
     }
 
@@ -36,13 +37,13 @@ export default class Profile extends Component {
     render(){
         const {profile, favorites} = this.state;
         return (
-          <div>
+          <div style={{ backgroundColor: `rgba(180, 180, 180, 1)` }}>
             <HomeHeader />
             <Divider hidden />
             <Container>
               <Header
                 as="h1"
-                style={{ fontFamily: "Arkhip" }}
+                style={{ fontFamily: "Arkhip"}}
                 content="Profile"
               />
               <Divider hidden />
@@ -52,16 +53,31 @@ export default class Profile extends Component {
                     <Header style={{ fontSize: "32px" }}>
                       <p>{profile.name}</p>
                     </Header>
-                    <p style={{ fontSize: "20px", padding: "0px" }}>
+                    <p
+                      style={{
+                        fontSize: "20px",
+                        padding: "0px"
+                      }}
+                    >
                       {profile.email}
                     </p>
-                    <p style={{ fontSize: "20px", padding: "0px" }}>
+                    <p
+                      style={{
+                        fontSize: "20px",
+                        padding: "0px"
+                      }}
+                    >
                       {profile.phoneNumber}
                     </p>
-                    <p style={{ fontSize: "20px", padding: "0px" }}>
+                    <p
+                      style={{
+                        fontSize: "20px",
+                        padding: "0px"
+                      }}
+                    >
                       {profile.dob}
                     </p>
-                    <EditProfile/>
+                    <EditProfile />
                   </Grid.Column>
                   <Grid.Column>
                     <Avatar
@@ -80,7 +96,7 @@ export default class Profile extends Component {
               </Grid>
             </Container>
             <Divider hidden />
-            <Divider />
+            <Divider style={{ backgroundColor: "black", height: "1px" }} />
             <Container>
               <Header
                 as="h1"
@@ -94,7 +110,8 @@ export default class Profile extends Component {
                   const date = moment(checkDate).format("DD MMMM YYYY");
                   return (
                     <Cards
-                      id={de.id}
+                      id={de.event.id}
+                      idFav={de.id}
                       img={de.event.img}
                       title={de.event.title}
                       price={`Rp${de.event.price}`}
@@ -106,6 +123,7 @@ export default class Profile extends Component {
                 })}
               </Card.Group>
             </Container>
+            <Footer />
           </div>
         );
     }

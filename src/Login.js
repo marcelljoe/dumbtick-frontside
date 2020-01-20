@@ -37,24 +37,30 @@ export default class Login extends Component{
     onSubmitLogin = (e) => {
         const username = this.state.username;
         const password = this.state.password;
-        console.log(this.state.username);
         axios
           .post("http://localhost:7000/dumbtick/login", {
             username,
             password
           })
           .then(res => {
-            if(res.data.error){
-              alert(res.data.message)
-            }else {
-                    console.log(res.data.users);
-                    localStorage.setItem("id", res.data.id);
-                    localStorage.setItem("username", res.data.username);
-                    localStorage.setItem("token", res.data.token);
-                    localStorage.setItem("name", res.data.name);
-                    localStorage.setItem("isLoggedIn", 1);
-                    window.location.reload();
-                  }
+            if(res.data.error === true) {
+              alert(res.data.message);
+            }else{
+            const data = res.data;
+            console.log(res.data);
+            const token = res.data.token;
+            localStorage.setItem("id", data.id);
+            localStorage.setItem("name", data.name);
+            localStorage.setItem("username", data.username);
+            localStorage.setItem("token", token);
+            localStorage.setItem("isLoggedIn", 1);
+            alert(res.data.message);
+            window.location.href = "http://localhost:3000/";
+
+            }
+
+            }).catch(res => {
+            alert("Login failed.");
           });
     }
     
@@ -71,6 +77,7 @@ export default class Login extends Component{
         }else{
             this.setState({
                 name: '',
+                email: '',
                 username:'',
                 password:'',
                 id:''
@@ -79,33 +86,26 @@ export default class Login extends Component{
 
     }
 
-
-    // INI CARA LOGIN
-    // handleLogin = () => {
-    //     axios.post("http://localhost:4000/api/v1/login", {email: this.state.email, password: this.state.password})
-    //     .then(res => {
-    //         localStorage.setItem("token", res.data.token)
-    //         localStorage.setItem("email", res.data.email)
-    //     })
-    // }
-
-    // componentWillUpdate(nextProps, nextState) {
-    //     localStorage.setItem('users', JSON.stringify(nextState));
-    // }
-
     render(){
         return (
           <Modal
-            trigger={<Button color="black" floated="right">Login</Button>}
+            trigger={
+                                   <Button floated="right" style={{ color: 'orange', backgroundColor: 'black'}}>  
+                LOGIN
+              </Button>
+            }
             size="small"
             closeIcon
             dimmer="blurring"
+            style={{ color: "orange", background: "rgba(100, 100, 100, 1)" }}
           >
             <div class="ui form">
               <br />
               <div align="center">
                 <div class="seven wide field">
-                  <h1 align="center">LOGIN</h1>
+                  <h1 align="center" style={{ fontFamily: "Arkhip" }}>
+                    LOGIN
+                  </h1>
                   <Form onSubmit={this.onSubmitLogin}>
                     <Form.Field align="center">
                       <Input
@@ -126,7 +126,14 @@ export default class Login extends Component{
                       />
                     </Form.Field>
                     <Form.Field align="center">
-                      <Button type="submit" color="black" size="small">
+                      <Button
+                        type="submit"
+                        size="small"
+                        style={{
+                          color: "black",
+                          background: "rgba(255, 165, 0, 1)"
+                        }}
+                      >
                         Sign In
                       </Button>
                     </Form.Field>
