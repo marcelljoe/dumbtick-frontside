@@ -41,7 +41,7 @@ export default class Registration extends Component {
 
                  onSubmitRegist = e => {
                    axios
-                     .post("http://localhost:7000/dumbtick/register", {
+                     .post("https://dumbtick-backend.herokuapp.com/dumbtick/register", {
                        name: this.state.name,
                        email: this.state.email,
                        phoneNumber: this.state.phoneNumber,
