@@ -55,7 +55,7 @@ export default class Login extends Component{
             localStorage.setItem("token", token);
             localStorage.setItem("isLoggedIn", 1);
             alert(res.data.message);
-            window.location.href = "https://dumbtick-joe.netlify.com/";
+            window.location.reload();
 
             }
 
