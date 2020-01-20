@@ -3,27 +3,27 @@ import axios from 'axios';
 export const getEventsByToday = () => {
     return {
       type: "GET_EVENTS_BT",
-      payload: axios.get("http://localhost:7000/dumbtick/eventsbytoday")
+      payload: axios.get("https://dumbtick-backend.herokuapp.com/dumbtick/eventsbytoday")
     };
 };
 
 export const getEventsUpcoming = () => {
   return {
     type: "GET_EVENTS_UC",
-    payload: axios.get("http://localhost:7000/dumbtick/eventsupcoming")
+    payload: axios.get("https://dumbtick-backend.herokuapp.com/dumbtick/eventsupcoming")
   };
 };
 
 export const getCategories = () => {
   return {
     type: "GET_CATEGORIES",
-    payload: axios.get("http://localhost:7000/dumbtick/categories")
+    payload: axios.get("https://dumbtick-backend.herokuapp.com/dumbtick/categories")
   };
 };
 
 export const getEvents = () => {
   return {
     type: "GET_EVENTS",
-    payload: axios.get("http://localhost:7000/dumbtick/events")
+    payload: axios.get("https://dumbtick-backend.herokuapp.com/dumbtick/events")
   };
 };
