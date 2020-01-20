@@ -64,7 +64,7 @@ class EventDetail extends Component {
                 })
                 .then(res => {
                   alert("Ticket successfully booked. Please go to the Payment Section on your Profile Menu.");
-                  window.location.href="https://dumbtick-joe.netlify.com/payment"
+                  //window.location.href="https://dumbtick-joe.netlify.com/payment"
                 })
                 ;
             }
