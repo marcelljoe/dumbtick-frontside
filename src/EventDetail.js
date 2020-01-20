@@ -55,7 +55,7 @@ class EventDetail extends Component {
                 const quantity = this.state.quantity;
                 const totalPrice = price * quantity;
                 console.log(totalPrice);
-                Axios.post("http://localhost:7000/dumbtick/buy", {
+                Axios.post("https://dumbtick-backend.herokuapp.com/dumbtick/buy", {
                   buyer_id,
                   event_id,
                   status,
